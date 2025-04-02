@@ -11,8 +11,28 @@ import userDeptRoutes from "./routes/user-dept.routes";
 const app = express();
 
 // Middleware
-app.use(helmet());
-app.use(cors());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
+    credentials: true,
+  })
+);
+
 app.use(compression());
 app.use(express.json({ limit: "50mb" })); // Increased limit for base64 file uploads
 
@@ -21,10 +41,18 @@ app.get("/", (req, res) => {
   res.json({ status: "API is running" });
 });
 
-// Swagger UI
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Swagger UI with no authentication
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  })
+);
 
-// Routes
+// Routes - no authentication middleware
 app.use("/", orderRoutes);
 app.use("/", fileRoutes);
 app.use("/", userDeptRoutes);

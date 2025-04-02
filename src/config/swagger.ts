@@ -6,14 +6,22 @@ const options: swaggerJsdoc.Options = {
     info: {
       title: "Mock API Documentation",
       version: "1.0.0",
-      description: "API documentation for Mock API endpoints",
+      description:
+        "API documentation for Mock API endpoints - No Authentication Required",
     },
     servers: [
       {
-        url: "http://localhost:3000",
-        description: "Local server",
+        url: process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : "http://localhost:3000",
+        description: "API Server",
       },
     ],
+    components: {
+      schemas: {},
+      securitySchemes: {}, // No security schemes needed
+    },
+    security: [], // No security requirements
   },
   apis: ["./src/routes/*.ts"], // Path to the API routes
 };
