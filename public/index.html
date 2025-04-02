@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FeathersJS API</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+      .container {
+        text-align: center;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+      }
+      h1 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+      }
+      p {
+        color: #34495e;
+        line-height: 1.6;
+      }
+      code {
+        background-color: #f8f8f8;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        font-family: "Courier New", monospace;
+      }
+      .endpoints {
+        text-align: left;
+        margin-top: 2rem;
+      }
+      .endpoint {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: #f8f8f8;
+        border-radius: 4px;
+      }
+      .method {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        color: white;
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+      .get {
+        background-color: #3498db;
+      }
+      .post {
+        background-color: #2ecc71;
+      }
+      .put {
+        background-color: #f39c12;
+      }
+      .delete {
+        background-color: #e74c3c;
+      }
+      .test-links {
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: #ecf0f1;
+        border-radius: 4px;
+      }
+      .test-links a {
+        display: inline-block;
+        margin: 0.5rem;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .test-links a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>FeathersJS API</h1>
+      <p>Welcome to your FeathersJS API! The server is running successfully.</p>
+
+      <div class="endpoints">
+        <h2>Available Endpoints:</h2>
+
+        <div class="endpoint">
+          <span class="method get">GET</span> <code>/users</code>
+          <p>Get all users</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method get">GET</span> <code>/users/:id</code>
+          <p>Get a specific user by ID</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method post">POST</span> <code>/users</code>
+          <p>Create a new user</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method put">PUT</span> <code>/users/:id</code>
+          <p>Replace a user</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method delete">DELETE</span> <code>/users/:id</code>
+          <p>Delete a user</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <code>/dms/OrderCreation/MY/:company</code>
+          <p>Create a new order for the specified company</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <code
+            >/api/util/kubeops/submission/v2/uploadSubmissionFileBase64</code
+          >
+          <p>Upload a file submission with base64 encoding</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <code>/procu-utils/validate-file-content</code>
+          <p>Validate file content</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <code>/procu-utils/concat-strings</code>
+          <p>Concatenate strings</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <code>/procu-utils/getDateTime</code>
+          <p>Get formatted date and time</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <code>/dms/UserPODept/MY</code>
+          <p>Get user PO department information</p>
+        </div>
+      </div>
+
+      <div class="test-links">
+        <h2>Test Pages:</h2>
+        <a href="/test-order-creation.html">Test Order Creation API</a>
+        <a href="/test-api-endpoints.html">Test New API Endpoints</a>
+      </div>
+
+      <p>
+        For more information, check out the
+        <a href="https://docs.feathersjs.com" target="_blank"
+          >FeathersJS documentation</a
+        >.
+      </p>
+    </div>
+  </body>
+</html>
