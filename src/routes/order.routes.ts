@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @swagger
- * /edms/OrderCreation/MY/{company}:
+ * /gdms/OrderCreation/MY/{company}:
  *   post:
  *     summary: Create a new order
  *     tags: [Orders]
@@ -89,6 +89,6 @@ const router = Router();
  *                           type: string
  *                           example: "True"
  */
-router.post("/edms/OrderCreation/MY/:company", createOrder);
+router.post("/gdms/OrderCreation/MY/:company", createOrder);
 
 export default router;

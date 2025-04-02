@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @swagger
- * /edms/UserPODept/MY:
+ * /gdms/UserPODept/MY:
  *   post:
  *     summary: Get user department information
  *     tags: [Users]
@@ -45,6 +45,6 @@ const router = Router();
  *                             type: string
  *                             example: "Sales"
  */
-router.post("/edms/UserPODept/MY", getUserDepartment);
+router.post("/gdms/UserPODept/MY", getUserDepartment);
 
 export default router;

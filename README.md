@@ -6,7 +6,7 @@ This project implements a set of mock APIs for testing and development purposes.
 
 1. Order Creation API
 
-   - Endpoint: `/edms/OrderCreation/MY/:company`
+   - Endpoint: `/gdms/OrderCreation/MY/:company`
    - Method: POST
    - Creates purchase orders with different statuses
 
@@ -35,7 +35,7 @@ This project implements a set of mock APIs for testing and development purposes.
    - Returns formatted date and time
 
 6. User Department API
-   - Endpoint: `/edms/UserPODept/MY`
+   - Endpoint: `/gdms/UserPODept/MY`
    - Method: POST
    - Returns department information for users
 
