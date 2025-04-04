@@ -11,7 +11,7 @@ module.exports = function (app) {
     app.use('/dms/UserPODept/MY', new UserPODept(options, app));
 
     // Get our initialized service so that we can register hooks
-    const service = app.service('/dms/UserPODept/MY');
+    const service = app.service('/gdms/UserPODept/MY');
 
     service.hooks(hooks);
 }; 

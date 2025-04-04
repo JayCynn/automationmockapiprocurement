@@ -23,10 +23,16 @@ exports.ConcatStrings = class ConcatStrings {
         // Log the request for debugging
         logger.info('Concat strings request received', { data });
 
-        // Return the fixed response as shown in the example
+        // Extract vendor name and PO number from request data
+        const { vendorName, PONo } = data;
+
+        // Concatenate the strings with hyphen and .pdf extension
+        const concatString = `${vendorName}-${PONo}.pdf`;
+
+        // Return the concatenated response
         return {
             "response": {
-                "concatResponse": "Kota Stationers-415562.pdf"
+                "concatResponse": concatString
             }
         };
     }

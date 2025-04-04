@@ -23,10 +23,16 @@ exports.ValidateFile = class ValidateFile {
         // Log the request for debugging
         logger.info('Validate file content request received', { data });
 
-        // Return the fixed response as shown in the example
+        // Extract base64FileData from request
+        const { base64FileData } = data;
+
+        // Check if base64FileData is empty
+        const isEmpty = !base64FileData || base64FileData.trim() === '';
+
+        // Return response based on whether file data is empty
         return {
             "response": {
-                "validateIsFileEmptyResponse": "False"
+                "validateIsFileEmptyResponse": isEmpty ? "True" : "False"
             }
         };
     }

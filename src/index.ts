@@ -4,35 +4,75 @@ const app = express();
 app.use(express.json());
 
 // Health check endpoint
-app.get("/", (req: Request, res: Response) => {
-  res.json({ status: "ok", message: "API is running" });
+app.get("/", (_req: Request, res: Response) => {
+  return res.json({ status: "ok", message: "API is running" });
 });
 
 // Order Creation API
 app.post(
-  "/edms/OrderCreation/:country/:company",
+  "/gdms/OrderCreation/:country/:company",
   (req: Request, res: Response) => {
     try {
-      const { country, company } = req.params;
-      const { orderStatus } = req.body;
+      const { orderCreation } = req.body;
 
-      const response = {
-        status: orderStatus === "SUCCESS" ? "SUCCESS" : "FAILED",
-        message:
-          orderStatus === "SUCCESS"
-            ? "Order created successfully"
-            : "Failed to create order",
-        data: {
-          orderId: "MOCK-ORDER-123",
-          timestamp: new Date().toISOString(),
-          country,
-          company,
+      let pONoStatus: string;
+      let opResp: string;
+
+      // Determine status and response based on iporderStatus
+      switch (orderCreation.iporderStatus) {
+        case "CREATE":
+          pONoStatus = "Raised";
+          opResp = "PO created successfully in GDMS";
+          break;
+        case "MODIFY":
+          pONoStatus = "Amended";
+          opResp = "PO amended successfully in GDMS";
+          break;
+        case "CANCEL":
+          pONoStatus = "Cancelled";
+          opResp = "PO cancelled successfully in GDMS";
+          break;
+        default:
+          return res.status(400).json({
+            response: {
+              orderCreationResponse: {
+                result: "Failed",
+                opRespCode: "400",
+                opIsSuccess: "False",
+              },
+            },
+          });
+      }
+
+      // Generate PO number (mock auto-generated number)
+      const poNumber = "415562";
+
+      // Generate pOPdf filename using vendorName and PONo
+      const poPdfFilename = `${orderCreation.ipvendorName}-${poNumber}.pdf`;
+
+      return res.json({
+        response: {
+          orderCreationResponse: {
+            result: "Success",
+            pONumber: poNumber,
+            pONoStatus: pONoStatus,
+            pOPdf: poPdfFilename,
+            opResp: opResp,
+            opRespCode: "200",
+            opIsSuccess: "True",
+          },
         },
-      };
-
-      res.json(response);
+      });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({
+        response: {
+          orderCreationResponse: {
+            result: "Failed",
+            opRespCode: "500",
+            opIsSuccess: "False",
+          },
+        },
+      });
     }
   }
 );
@@ -40,106 +80,152 @@ app.post(
 // File Upload API
 app.post(
   "/api/util/kubeops/submission/v2/uploadSubmissionFileBase64",
-  (req: Request, res: Response) => {
+  (_req: Request, res: Response) => {
     try {
-      const { fileName, fileData } = req.body;
-
-      res.json({
-        status: "SUCCESS",
-        message: "File uploaded successfully",
-        data: {
-          fileId: "MOCK-FILE-123",
-          fileName,
-          uploadTime: new Date().toISOString(),
+      return res.json({
+        response: {
+          statusId: "200",
+          responseData: "True",
+          success: "True",
         },
       });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({
+        response: {
+          statusId: "500",
+          responseData: "False",
+          success: "False",
+        },
+      });
     }
   }
 );
 
 // File Content Validation API
 app.post(
-  "/api/util/kubeops/submission/v2/validateFileContentBase64",
+  "/procu-utils/validate-file-content",
   (req: Request, res: Response) => {
     try {
-      const { fileData } = req.body;
-      const isEmpty = !fileData || fileData.trim() === "";
+      const { base64FileData } = req.body;
+      const isEmpty = !base64FileData || base64FileData.trim() === "";
 
-      res.json({
-        status: isEmpty ? "FAILED" : "SUCCESS",
-        message: isEmpty ? "File content is empty" : "File content is valid",
-        data: {
-          isValid: !isEmpty,
-          validationTime: new Date().toISOString(),
+      return res.json({
+        response: {
+          validateIsFileEmptyResponse: isEmpty ? "True" : "False",
         },
       });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({
+        response: {
+          validateIsFileEmptyResponse: "True",
+        },
+      });
     }
   }
 );
 
 // String Concatenation API
-app.post("/api/util/string/concat", (req: Request, res: Response) => {
+app.post("/procu-utils/concat-strings", (req: Request, res: Response) => {
   try {
-    const { vendorName, poNumber } = req.body;
-    const pdfFileName = `${vendorName}_${poNumber}.pdf`;
+    const { VendorName, PONo } = req.body;
+    const concatResponse = `${VendorName}-${PONo}.pdf`;
 
-    res.json({
-      status: "SUCCESS",
-      data: {
-        pdfFileName,
-        timestamp: new Date().toISOString(),
+    return res.json({
+      response: {
+        concatResponse,
       },
     });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({
+      response: {
+        concatResponse: "",
+      },
+    });
   }
 });
 
 // DateTime API
-app.get("/api/util/datetime", (req: Request, res: Response) => {
+app.post("/procu-utils/getDateTime", (_req: Request, res: Response) => {
   try {
     const now = new Date();
-    const formattedDate = now.toISOString().replace("T", " ").split(".")[0];
+    const dateTime = now.toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
 
-    res.json({
-      status: "SUCCESS",
-      data: {
-        currentDateTime: formattedDate,
-        timestamp: now.getTime(),
+    return res.json({
+      response: {
+        dateTime,
       },
     });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({
+      response: {
+        dateTime: "",
+      },
+    });
   }
 });
 
 // User Department API
-app.post("/edms/UserPODept/:country", (req: Request, res: Response) => {
+app.post("/gdms/UserPODept/:country", (req: Request, res: Response) => {
   try {
-    const { country } = req.params;
-    const { userId } = req.body;
+    const { ipUserID, Company } = req.body;
 
-    res.json({
-      status: "SUCCESS",
-      data: {
-        userId,
-        country,
-        department: "MOCK-DEPT-123",
-        timestamp: new Date().toISOString(),
+    console.log(ipUserID, Company);
+
+    if (ipUserID == "requestor1@kube.com" && Company == "SDAP") {
+      return res.json({
+        response: {
+          data: [
+            {
+              deptcode: "D01",
+              deptname: "Ara Damansara Sales",
+              depttype: "Sales",
+            },
+            {
+              deptcode: "D02",
+              deptname: "Sungai Besi Sales",
+              depttype: "Sales",
+            },
+            {
+              deptcode: "D03",
+              deptname: "Johor Bahru Sales",
+              depttype: "Sales",
+            },
+            {
+              deptcode: "D04",
+              deptname: "Penang Sales",
+              depttype: "Sales",
+            },
+          ],
+        },
+      });
+    }
+
+    return res.json({
+      response: {
+        data: [],
       },
     });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({
+      response: {
+        data: [],
+        error: "Internal server error",
+      },
+    });
   }
 });
 
 // 404 handler
-app.use((req: Request, res: Response) => {
-  res.status(404).json({ error: "Not Found" });
+app.use((_req: Request, res: Response) => {
+  return res.status(404).json({ error: "Not Found" });
 });
 
 // Only start the server if we're not in a serverless environment

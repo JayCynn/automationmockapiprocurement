@@ -9,10 +9,10 @@ module.exports = function (app) {
 
     // Initialize our service with any options it requires
     // Use a custom path that matches the requirement in the image
-    app.use('/dms/OrderCreation/MY/:company', new OrderCreation(options, app));
+    app.use('/gdms/OrderCreation/MY/:company', new OrderCreation(options, app));
 
     // Get our initialized service so that we can register hooks
-    const service = app.service('/dms/OrderCreation/MY/:company');
+    const service = app.service('/gdms/OrderCreation/MY/:company');
 
     service.hooks(hooks);
 }; 

@@ -4,7 +4,7 @@ module.exports = function (app) {
     // in Express, the order matters.
 
     // Custom middleware for the order-creation service
-    app.use('/dms/OrderCreation/MY/:company', (req, res, next) => {
+    app.use('/gdms/OrderCreation/MY/:company', (req, res, next) => {
         // Save the company parameter to request object for use in the service
         req.feathers.company = req.params.company;
         next();

@@ -112,7 +112,7 @@
           try {
             responseEl.textContent = "Sending request...";
 
-            const response = await fetch(`/dms/OrderCreation/MY/${company}`, {
+            const response = await fetch(`/gdms/OrderCreation/MY/${company}`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
