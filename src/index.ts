@@ -179,7 +179,7 @@ app.post("/gdms/UserPODept/:country", (req: Request, res: Response) => {
 
     console.log(ipUserID, Company);
 
-    if (ipUserID == "requestor1@kube.com" && Company == "SDAP") {
+    if (ipUserID == "gdmsrequestor1@kube365.com" && Company == "SDAP") {
       return res.json({
         response: {
           data: [
